@@ -15,9 +15,11 @@
 import { colorValidator } from './validators';
 import { COLORS } from './colors';
 
-//TODO other layouts, including the one without slab highlight as mozilla recommends in the branding guidelines
+//TODO adapt to official layouts
 //TODO fix background filter
 //TODO allow a community image/logo thing (flags?)
+//TODO dynamically decide width
+//TODO fix spacing
 
 export default {
     name: 'logo',

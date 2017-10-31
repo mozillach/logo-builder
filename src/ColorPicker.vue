@@ -37,7 +37,7 @@ export default {
         },
         showCustom: {
             type: Boolean,
-            default: true
+            default: false
         }
     },
     data() {
