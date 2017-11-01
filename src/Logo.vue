@@ -1,13 +1,8 @@
 <template>
-  <svg xmlns="http://www.w3.org/2000/svg" width="500" height="100" viewBox="0 0 500 100">
-      <defs v-if="bgFilter">
-          <filter x="0" y="0" height="1" width="1" id="communitybg">
-              <feFlood :flood-color="background"/>
-              <feComposite in="SourceGraphic"/>
-          </filter>
-      </defs>
-      <text x="0" y="40" font-family="Zilla Slab Highlight" font-weight="700" font-size="40" :fill="mozillaColor">mozilla</text>
-      <text x="0" y="91" font-family="Zilla Slab Highlight" font-size="40" :fill="color" :filter="bgFilter">{{ community }}</text>
+  <svg xmlns="http://www.w3.org/2000/svg" width="100%" :viewBox="viewBox" preserveAspectRatio="xMidYMid meet">
+      <rect v-if="background" x="0" y="0" :height="height" :width="width" :fill="background"/>
+      <text x="0" y="40" font-family="Zilla Slab" font-size="40" font-weight="600" :fill="color" ref="community">{{ community }}</text>
+      <text x="0" y="74" font-family="Zilla Slab Highlight" font-weight="700" font-size="24" :fill="mozillaColor" ref="mozilla">mozilla</text>
   </svg>
 </template>
 
@@ -15,11 +10,11 @@
 import { colorValidator } from './validators';
 import { COLORS } from './colors';
 
-//TODO adapt to official layouts
-//TODO fix background filter
+// Notes on the logo:
+// The dot is currently 3px wide, which means spaces should be 3px.
+// The mozilla logo/uppercase slab are 28px high.
+
 //TODO allow a community image/logo thing (flags?)
-//TODO dynamically decide width
-//TODO fix spacing
 
 export default {
     name: 'logo',
@@ -37,22 +32,40 @@ export default {
             default: COLORS.Black,
             validator: colorValidator
         },
-        background: {
-            type: String,
-            validator: colorValidator
-        },
         mozillaInverted: {
             type: Boolean,
             default: false
+        },
+        background: {
+            type: String,
+            default: '',
+            validator: colorValidator
         }
+    },
+    data() {
+        return {
+            width: 500,
+            height: 78
+        };
     },
     computed: {
         mozillaColor() {
-            return this.mozillaInverted ? "white": "black";
+            return this.mozillaInverted ? COLORS.White: COLORS.Black;
         },
-        bgFilter() {
-            return this.background.length ? "url(#communitybg)" : "";
+        viewBox() {
+            return `0 0 ${this.width} ${this.height}`;
         }
+    },
+    methods: {
+        updateWidth() {
+            this.width = Math.max(this.$refs.community.getBBox().width, this.$refs.mozilla.getBBox().width);
+        }
+    },
+    mounted() {
+        this.$nextTick(() => this.updateWidth());
+    },
+    updated() {
+        this.$nextTick(() => this.updateWidth());
     }
 }
 </script>
