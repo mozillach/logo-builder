@@ -2,8 +2,9 @@
     <div id="app">
         <h1>Mozilla Community Logo Generator</h1>
         <div class="logoWrapper" :style="{ background }">
-            <logo :color="color" :community="community" :mozillaInverted="inverted" class="logo"/>
+            <logo :color="color" :community="community" :mozillaInverted="inverted" class="logo" ref="logo"/>
         </div>
+        <save-file :contents="source" :name="community"/>
         <section>
             <h2>Settings</h2>
             <setting name="Main Color">
@@ -26,6 +27,7 @@
 import Logo from './Logo.vue';
 import ColorPicker from './ColorPicker.vue';
 import Setting from './Setting.vue';
+import SaveFile from './SaveFile.vue';
 import { COLORS } from './colors';
 
 export default {
@@ -33,6 +35,7 @@ export default {
     components: {
         ColorPicker,
         Logo,
+        SaveFile,
         Setting
     },
     data() {
@@ -40,7 +43,8 @@ export default {
             color: COLORS.Black,
             background: '',
             inverted: false,
-            community: decodeURIComponent(window.location.hash.substr(1)) || "Switzerland"
+            community: decodeURIComponent(window.location.hash.substr(1)) || "Switzerland",
+            source: ''
         };
     },
     methods: {
@@ -57,6 +61,11 @@ export default {
         setBackground(val) {
             this.background = val;
         }
+    },
+    updated() {
+        this.$nextTick(() => {
+            this.source = this.$refs.logo.$el.outerHTML;
+        });
     }
 }
 </script>

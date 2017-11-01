@@ -1,9 +1,12 @@
 <template>
-    <a :href="uri" :download="fileName" :type="mimeType">Download Logo</a>
+    <a v-if="uri" :href="uri" :download="fileName" :type="mimeType">Download Logo</a>
 </template>
 
 <script>
 import { mimeValidator } from './validators';
+
+//TODO the downloaded SVG doesn't include the fonts...
+
 export default {
     name: 'save-file',
     props: {
@@ -31,8 +34,7 @@ export default {
                     URL.revokeObjectURL(this.lastURI);
                 }
                 this.lastContents = this.contents;
-                console.log(this.contents);
-                const file = new File(this.contents, this.fileName, {
+                const file = new File([ this.contents ], this.fileName, {
                     type: this.mimeType
                 });
                 this.lastURI = URL.createObjectURL(file);
