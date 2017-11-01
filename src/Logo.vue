@@ -1,6 +1,7 @@
 <template>
   <svg xmlns="http://www.w3.org/2000/svg" width="100%" :viewBox="viewBox" preserveAspectRatio="xMidYMid meet">
       <text x="0" y="40" font-family="Zilla Slab" font-size="40" font-weight="600" :fill="color" ref="community">{{ community }}</text>
+      <rect v-if="!mozillaInverted" x="1" y="53" height="22.5" :width="mozillaWidth - 2" fill="white"/>
       <text x="0" y="74" font-family="Zilla Slab Highlight" font-weight="700" font-size="24" :fill="mozillaColor" ref="mozilla">mozilla</text>
   </svg>
 </template>
@@ -32,7 +33,8 @@ export default {
     data() {
         return {
             width: 500,
-            height: 78
+            height: 78,
+            mozillaWidth: 0
         };
     },
     computed: {
@@ -45,7 +47,8 @@ export default {
     },
     methods: {
         updateWidth() {
-            this.width = Math.max(this.$refs.community.getBBox().width, this.$refs.mozilla.getBBox().width);
+            this.mozillaWidth = this.$refs.mozilla.getBBox().width;
+            this.width = Math.max(this.$refs.community.getBBox().width, this.mozillaWidth);
         }
     },
     mounted() {
