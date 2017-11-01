@@ -1,7 +1,7 @@
 <template>
     <div id="app">
         <h1>Mozilla Community Logo Generator</h1>
-        <logo community="switzerland" :color="color" :background="background" :community="community"/>
+        <logo :color="color" :background="background" :community="community"/>
         <section>
             <h2>Settings</h2>
             <setting name="Main Color">

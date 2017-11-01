@@ -1,6 +1,6 @@
 <template>
   <svg xmlns="http://www.w3.org/2000/svg" width="500" height="100" viewBox="0 0 500 100">
-      <defs>
+      <defs v-if="bgFilter">
           <filter x="0" y="0" height="1" width="1" id="communitybg">
               <feFlood :flood-color="background"/>
               <feComposite in="SourceGraphic"/>

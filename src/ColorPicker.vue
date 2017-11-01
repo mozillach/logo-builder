@@ -62,7 +62,6 @@ export default {
             return this.custom;
         },
         showPicker() {
-            console.log(this.color, this.showNone);
             return this.showCustom && (!this.showNone || this.color.length);
         }
     },
