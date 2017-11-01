@@ -1,6 +1,5 @@
 <template>
   <svg xmlns="http://www.w3.org/2000/svg" width="100%" :viewBox="viewBox" preserveAspectRatio="xMidYMid meet">
-      <rect v-if="background" x="0" y="0" :height="height" :width="width" :fill="background"/>
       <text x="0" y="40" font-family="Zilla Slab" font-size="40" font-weight="600" :fill="color" ref="community">{{ community }}</text>
       <text x="0" y="74" font-family="Zilla Slab Highlight" font-weight="700" font-size="24" :fill="mozillaColor" ref="mozilla">mozilla</text>
   </svg>
@@ -20,13 +19,6 @@ export default {
     name: 'logo',
     props: {
         community: String,
-        configuration: {
-            type: String,
-            default: "highlight-below",
-            validator(val) {
-                return val == "highlight-below" || val == "highlight-above" || val == "above";
-            }
-        },
         color: {
             type: String,
             default: COLORS.Black,
@@ -35,11 +27,6 @@ export default {
         mozillaInverted: {
             type: Boolean,
             default: false
-        },
-        background: {
-            type: String,
-            default: '',
-            validator: colorValidator
         }
     },
     data() {
