@@ -2,7 +2,7 @@ export const COLORS = {
     Black: "#000000",
     White: "#FFFFFF",
     "Neon Blue": "#00FFFF",
-    "Lemon Yellow": "#FF44FF",
+    "Lemon Yellow": "#FFF44F",
     "Warm Red": "#FF4F5E",
     "Neon Green": "#54FFBD",
     "Dark Purple": "#6E008B"
