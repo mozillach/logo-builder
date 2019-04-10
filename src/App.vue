@@ -1,23 +1,27 @@
 <template>
     <div id="app">
-        <h1>Mozilla Community Logo Generator</h1>
+        <header class="mzp-l-content">
+            <h1>Mozilla Community Logo Generator</h1>
+        </header>
         <div class="logoWrapper" :style="{ background }">
-            <logo :color="color" :community="community" :mozillaInverted="inverted" class="logo" ref="logo"/>
+            <logo :color="color" :community="community" :mozillaInverted="inverted" class="logo" ref="logo" @source="setSource"/>
         </div>
         <save-file :contents="source" :name="community"/>
-        <section>
+        <section class="mzp-l-content">
             <h2>Settings</h2>
-            <setting name="Main Color">
-                <color-picker @change="setColor" :color="color"/>
+            <setting name="Main Color" input-id="color">
+                <color-picker @change="setColor" :color="color" id="color"/>
             </setting>
-            <setting name="Community Name">
-                <input type="text" @input="setCommunity" :value="community"/>
+            <setting name="Community Name" input-id="community">
+                <input type="text" @input="setCommunity" :value="community" id="community"/>
             </setting>
-            <setting name="Invert Mozilla Logo">
-                <input type="checkbox" @change="setInverted" :checked="inverted"/>
-            </setting>
-            <setting name="Background Color">
-                <color-picker @change="setBackground" :color="background" showNone showSecondary/>
+            <p>
+                <label class="mzp-u-inline">
+                    <input type="checkbox" @change="setInverted" :checked="inverted"/> Invert Mozilla Logo
+                </label>
+            </p>
+            <setting name="Background Color" input-id="background">
+                <color-picker @change="setBackground" :color="background" showNone showSecondary id="background"/>
             </setting>
         </section>
     </div>
@@ -29,6 +33,7 @@ import ColorPicker from './ColorPicker.vue';
 import Setting from './Setting.vue';
 import SaveFile from './SaveFile.vue';
 import { COLORS } from './colors';
+import { serialize, deserialize } from './logo-data';
 
 export default {
     name: 'app',
@@ -39,11 +44,12 @@ export default {
         Setting
     },
     data() {
+        const hashData = deserialize(decodeURIComponent(window.location.hash.substr(1)));
         return {
-            color: COLORS.Black,
+            color: hashData.color || COLORS.Black,
             background: '',
-            inverted: false,
-            community: decodeURIComponent(window.location.hash.substr(1)) || "Switzerland",
+            inverted: hashData.inverted,
+            community: hashData.community || "Switzerland",
             source: ''
         };
     },
@@ -53,19 +59,34 @@ export default {
         },
         setCommunity(event) {
             this.community = event.target.value;
-            window.location.hash = this.community;
         },
         setInverted(event) {
             this.inverted = event.target.checked;
         },
         setBackground(val) {
             this.background = val;
+        },
+        setSource(source) {
+            this.source = source;
+        },
+        updateHash() {
+            window.location.hash = serialize({
+                color: this.color,
+                inverted: this.inverted,
+                community: this.community
+            });
         }
     },
-    updated() {
-        this.$nextTick(() => {
-            this.source = this.$refs.logo.$el.outerHTML;
-        });
+    watch: {
+        community() {
+            this.updateHash();
+        },
+        inverted() {
+            this.updateHash();
+        },
+        color() {
+            this.updateHash();
+        }
     }
 }
 </script>
@@ -77,16 +98,10 @@ body {
 }
 
 #app {
-    font-family: 'Zilla Slab', sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     text-align: center;
-    color: #2c3e50;
-    margin-top: 2em;
-}
-
-h1, h2 {
-    font-weight: normal;
+    /* color: #2c3e50; */
 }
 
 .logoWrapper {

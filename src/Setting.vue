@@ -1,6 +1,6 @@
 <template>
     <p>
-        <label>{{ name }}</label>
+        <label :for="inputId">{{ name }}</label>
         <slot/>
     </p>
 </template>
@@ -9,7 +9,8 @@
 export default {
     name: 'setting',
     props: {
-        name: String
+        name: String,
+        inputId: String
     }
 }
 </script>

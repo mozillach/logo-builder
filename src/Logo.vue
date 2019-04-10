@@ -46,13 +46,21 @@ export default {
         }
     },
     methods: {
-        updateWidth() {
-            this.mozillaWidth = this.$refs.mozilla.getBBox().width;
-            this.width = Math.max(this.$refs.community.getBBox().width, this.mozillaWidth);
+        updateWidth(updateMozilla = false) {
+            // This tries to avoid infinite rounding loops and such.
+            if(updateMozilla) {
+                this.mozillaWidth = this.$refs.mozilla.getBBox().width;
+            }
+            const width = Math.max(Math.ceil(this.$refs.community.getBBox().width), this.mozillaWidth);
+
+            if(width != this.width) {
+                this.width = width;
+            }
+            this.$emit('source', this.$el.outerHTML);
         }
     },
     mounted() {
-        this.$nextTick(() => this.updateWidth());
+        this.$nextTick(() => this.updateWidth(true));
     },
     updated() {
         this.$nextTick(() => this.updateWidth());

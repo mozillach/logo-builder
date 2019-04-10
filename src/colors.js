@@ -10,7 +10,5 @@ export const COLORS = {
 
 export const SECONDARY_COLORS = {
     "Dark Green": "#005E5E",
-    "Dark Blue": "#00458B",
-    "Dark Grey": "#959595",
-    "Light Grey": "#E7E5E2"
+    "Dark Blue": "#00458B"
 };

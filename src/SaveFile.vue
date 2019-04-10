@@ -1,5 +1,7 @@
 <template>
-    <a v-if="uri" :href="uri" :download="fileName" :type="mimeType">Download Logo</a>
+    <div class="mzp-c-button-download-container">
+        <a v-if="uri" class="mzp-c-button mzp-t-product mzp-t-secondary mzp-t-small" :href="uri" :download="fileName" :type="mimeType">Download Logo</a>
+    </div>
 </template>
 
 <script>
