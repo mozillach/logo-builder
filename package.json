@@ -6,7 +6,7 @@
   "private": true,
   "scripts": {
     "dev": "cross-env NODE_ENV=development webpack-dev-server --open --hot",
-    "build": "cross-env NODE_ENV=production webpack --progress --hide-modules --production"
+    "build": "cross-env NODE_ENV=production webpack --progress --hide-modules --mode=production"
   },
   "dependencies": {
     "@mozilla-protocol/core": "^6.0.1",
